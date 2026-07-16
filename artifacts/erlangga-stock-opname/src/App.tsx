@@ -12,28 +12,41 @@ function cn(...inputs: ClassValue[]) {
 
 const queryClient = new QueryClient();
 
-// CONFIGURE: Replace with your actual Google Form submission URL
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfxbXC2p0rugA63OhJhrR-P5D4rqhD46lXm2eBhxYEqaFKm8g/formResponse";
 
-// CONFIGURE: Replace with your Google Form field entry IDs
 const FORM_FIELDS = {
-  namaToko: "entry.XXXXXXX",
-  tipe: "entry.XXXXXXX",
-  produk: "entry.XXXXXXX",
-  jumlah: "entry.XXXXXXX",
+  namaToko: "entry.1645627044",
+  tipe: "entry.1703783121",
+  produk: "entry.1834168342",
+  jumlah: "entry.2006386930",
 };
 
-const CATEGORIES: Record<string, string[]> = {
-  "Parfum": ["Extrait", "EDP", "EDT"],
-  "Face Care": ["Facewash 100ml", "Facewash 50ml", "Sunscreen", "Serum", "Face spray"],
-  "Hair Care": ["Pomade", "Hair powder", "Hair oil", "Hair serum"],
-  "Body Care": ["Bodywash", "Deodorant"]
-};
+const TIPE_OPTIONS = [
+  "Stock awal",
+  "Stock akhir",
+];
+
+const PRODUK_OPTIONS = [
+  "Extrait",
+  "EDP",
+  "EDT",
+  "Facewash 100ml",
+  "Facewash 50ml",
+  "Pomade",
+  "Hair powder",
+  "Bodywash",
+  "Deodorant",
+  "Hair oil",
+  "Hair serum",
+  "Sunscreen",
+  "Serum",
+  "Face spray",
+];
 
 function Home() {
   const [storeName, setStoreName] = useState("");
   const [storeSaved, setStoreSaved] = useState(false);
-  const [category, setCategory] = useState("");
+  const [tipe, setTipe] = useState("");
   const [product, setProduct] = useState("");
   const [quantity, setQuantity] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +89,7 @@ function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!storeName || !category || !product || !quantity) {
+    if (!storeName || !tipe || !product || !quantity) {
       showNotification('error', 'Lengkapi semua kolom');
       return;
     }
@@ -85,11 +98,9 @@ function Home() {
 
     const formData = new URLSearchParams();
     formData.append(FORM_FIELDS.namaToko, storeName);
-    formData.append(FORM_FIELDS.tipe, category);
+    formData.append(FORM_FIELDS.tipe, tipe);
     formData.append(FORM_FIELDS.produk, product);
     formData.append(FORM_FIELDS.jumlah, quantity);
-    // Optional timestamp field if you add it to the Google form later
-    // formData.append("entry.TIMESTAMP", new Date().toLocaleString("id-ID"));
 
     try {
       await fetch(GOOGLE_FORM_URL, {
@@ -102,7 +113,7 @@ function Home() {
       });
       
       // Reset form but keep storeName
-      setCategory("");
+      setTipe("");
       setProduct("");
       setQuantity("");
       showNotification('success', 'Data berhasil disimpan!');
@@ -187,24 +198,21 @@ function Home() {
             <div className="space-y-2">
               <label className="text-sm font-semibold text-primary flex items-center gap-2">
                 <Tag className="w-4 h-4" />
-                Tipe Produk
+                Tipe
               </label>
               <div className="relative">
                 <select
-                  value={category}
-                  onChange={(e) => {
-                    setCategory(e.target.value);
-                    setProduct(""); // Reset product when category changes
-                  }}
+                  value={tipe}
+                  onChange={(e) => setTipe(e.target.value)}
                   className={cn(
                     "w-full min-h-[48px] px-4 pr-10 rounded-xl bg-muted/50 border border-primary/10 focus:border-primary focus:ring-1 focus:ring-primary focus:bg-transparent outline-none transition-all appearance-none font-medium text-primary",
-                    !category && "text-muted-foreground/60"
+                    !tipe && "text-muted-foreground/60"
                   )}
                   required
                 >
-                  <option value="" disabled>Pilih tipe produk</option>
-                  {Object.keys(CATEGORIES).map((cat) => (
-                    <option key={cat} value={cat} className="text-primary">{cat}</option>
+                  <option value="" disabled>Pilih tipe</option>
+                  {TIPE_OPTIONS.map((t) => (
+                    <option key={t} value={t} className="text-primary">{t}</option>
                   ))}
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -224,21 +232,20 @@ function Home() {
                 <select
                   value={product}
                   onChange={(e) => setProduct(e.target.value)}
-                  disabled={!category}
                   className={cn(
-                    "w-full min-h-[48px] px-4 pr-10 rounded-xl bg-muted/50 border border-primary/10 focus:border-primary focus:ring-1 focus:ring-primary focus:bg-transparent outline-none transition-all appearance-none font-medium text-primary disabled:opacity-50 disabled:cursor-not-allowed",
+                    "w-full min-h-[48px] px-4 pr-10 rounded-xl bg-muted/50 border border-primary/10 focus:border-primary focus:ring-1 focus:ring-primary focus:bg-transparent outline-none transition-all appearance-none font-medium text-primary",
                     !product && "text-muted-foreground/60"
                   )}
                   required
                 >
                   <option value="" disabled>Pilih nama produk</option>
-                  {category && CATEGORIES[category].map((prod) => (
+                  {PRODUK_OPTIONS.map((prod) => (
                     <option key={prod} value={prod} className="text-primary">{prod}</option>
                   ))}
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={cn("text-primary/50", !category && "opacity-50")}/>
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-primary/50"/>
                   </svg>
                 </div>
               </div>
