@@ -1,0 +1,23 @@
+"Saya ingin membuat aplikasi web untuk stock opname produk Kahf dengan nama 'Erlangga Stock Opname'. Tolong buatkan kode dalam satu file (HTML, CSS, dan JavaScript) yang terlihat sangat profesional, modern, dan estetik layaknya aplikasi mobile yang dikembangkan oleh tim profesional.
+
+Berikut adalah detail kebutuhannya:
+
+Judul Aplikasi: Tampilkan 'Erlangga Stock Opname' dengan font yang elegan dan bersih di bagian atas (header).
+
+UI/UX: Gunakan skema warna yang clean (misal: kombinasi warna Deep Green atau Dark Grey khas Kahf dengan white space yang lega). Buat tombol dengan rounded corner, bayangan halus (soft shadow), dan efek hover/tap yang responsif.
+
+Input Nama Toko: Gunakan ⁠<input type="text">⁠ yang bisa diketik bebas. Tambahkan fitur LocalStorage agar nama toko yang terakhir diisi otomatis tersimpan di browser.
+
+Dropdown (Tipe & Produk): Gunakan dropdown dengan desain yang modern. Pilihan Produk: 'Extrait', 'EDP', 'EDT', 'Facewash 100ml', 'Facewash 50ml', 'Pomade', 'Hair powder', 'Bodywash', 'Deodorant', 'Hair oil', 'Hair serum', 'Sunscreen', 'Serum', 'Face spray'.
+
+Input Jumlah: ⁠<input type="number">⁠ dengan gaya input field yang modern.
+
+Tombol Kirim: Desain tombol 'Simpan Data' yang terlihat menonjol dan menarik, tambahkan efek feedback saat diklik (seperti animasi loading atau notifikasi sukses yang cantik).
+
+Responsif: Pastikan tampilan sangat nyaman digunakan di layar HP (mobile-first design).
+
+Integrasi: Tambahkan fungsi JavaScript untuk mengirim data ke Google Form via ⁠fetch⁠ (mode: no-cors).
+
+Tips Tambahan untuk Tampilan "Profesional":
+ Warna Kahf: Kamu bisa meminta AI untuk menambahkan warna khas Kahf dengan menambahkan perintah: "Gunakan palet warna hijau tua (#1e3d32) dan krem/putih untuk kesan brand Kahf yang kuat."
+ Loading Animation: Karena aplikasi ini mengirim data ke Google Form, prosesnya tidak instan. Meminta AI menambahkan loading state (tombol berubah jadi "Mengirim..." saat ditekan) akan membuat aplikasi terasa jauh lebih canggih di mata orang lain.

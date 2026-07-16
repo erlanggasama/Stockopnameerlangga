@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Erlangga Stock Opname"
+version = "1.0.0"
+id = "artifacts/erlangga-stock-opname"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19966
+
+[services.development]
+run = "pnpm --filter @workspace/erlangga-stock-opname run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/erlangga-stock-opname", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/erlangga-stock-opname/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19966"
+BASE_PATH = "/"
